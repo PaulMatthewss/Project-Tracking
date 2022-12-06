@@ -5,13 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
-    <script src="navbar.js" defer></script>
     {% block head %}{% endblock %}
 </head>
 <body>
     <nav class="navbar">
         <div class="brand-title">ООО "Рога и копыта"</div>
-        <a href="#" class="toggle-botton">
+        <a href="#" class="toggle-button">
             <span class="bar"></span>
             <span class="bar"></span>
             <span class="bar"></span>
@@ -26,4 +25,12 @@
     </nav>
     {% block body %}{% endblock %}
 </body>
+<script>
+    const toggleButton = document.getElementsByClassName('toggle-button')[0];
+    const navbarLinks = document.getElementsByClassName('navbar-links')[0];
+
+    toggleButton.addEventListener('click', () => {
+        navbarLinks.classList.toggle('active')
+    });
+</script>
 </html>

@@ -72,13 +72,13 @@ body {
 }
 
 .toggle-button .bar{
-    height: 10px;
+    height: 3px;
     width: 100%;
     background-color: white;
     border-radius: 10px;
 }
 
-@media (max-width: 0px){
+@media (max-width: 600px){
     .toggle-button{
         display: flex;
     }
