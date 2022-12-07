@@ -8,6 +8,10 @@ body {
     background-color: lightcoral;
 }
 
+.btn-info{
+    margin: 5px;
+}
+
 .newworker{
     margin-top: 5rem;
     margin-left: 70%;

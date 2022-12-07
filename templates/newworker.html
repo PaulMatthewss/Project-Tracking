@@ -5,8 +5,30 @@
 {% endblock %}
 
 {% block body %}
-<a href="workers"><button class="abort">Отмена</button></a>
-<a href="workers"><button class="newworker">Подтвердить</button></a>
 <h1>Создание сотрудника</h1>
 <hr color="black">
+{% if fio %}
+    <h1>You are a {{ fio }}, {{ edu }}</h1>
+{% else %}
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        {{ form.fio.label(class="form-label") }}
+        {{ form.fio(class="form-control") }}
+        {{ form.edu.label(class="form-label") }}
+        {{ form.edu(class="form-control") }}
+        {{ form.phone.label(class="form-label") }}
+        {{ form.phone(class="form-control") }}
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control") }}
+        {{ form.socmid.label(class="form-label") }}
+        {{ form.socmid(class="form-control") }}
+        <br/>
+        
+        {{ form.submit(class="btn btn-info") }}
+    </form>
+    <a href="workers"><button class="btn btn-info">Отмена</button></a>
+
+{% endif %}
+
 {% endblock %}
