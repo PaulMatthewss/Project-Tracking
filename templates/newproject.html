@@ -5,8 +5,27 @@
 {% endblock %}
 
 {% block body %}
-<a href="projects"><button class="btn btn-info">Отмена</button></a>
-<a href="projects"><button class="btn btn-info">Подтвердить</button></a>
 <h1>Создание проекта</h1>
 <hr color="black">
+
+{% if project_name %}
+    <h1>Проект: {{ project_name }}, руководитель: {{ project_manager }}</h1>
+{% else %}
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        {{ form.project_name.label(class="form-label") }}
+        {{ form.project_name(class="form-control") }}
+        {{ form.project_manager.label(class="form-label") }}
+        {{ form.project_manager(class="form-control") }}
+        {{ form.project_description.label(class="form-label") }}
+        {{ form.project_description(class="form-control") }}
+        <br/>
+        
+        {{ form.submit(class="btn btn-info") }}
+    </form>
+    <a href="projects"><button class="btn btn-info">Отмена</button></a>
+
+{% endif %}
+    
 {% endblock %}

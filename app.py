@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, SelectField, TextAreaField
 from wtforms.validators import DataRequired
 
 #Flask instance
@@ -13,6 +13,12 @@ class WorkerForm(FlaskForm):
     phone = StringField("Телефон", validators=[DataRequired()])
     email = StringField("Эл.адрес", validators=[DataRequired()])
     socmid = StringField("Соц.сеть", validators=[DataRequired()])
+    submit = SubmitField("Подтвердить")
+
+class ProjectForm(FlaskForm):
+    project_name = StringField("Название проекта", validators=[DataRequired()])
+    project_manager = SelectField("Руководитель проекта", choices=[('Анна'), ('Павел'), ('Пётр')], validate_choice=False)
+    project_description = TextAreaField("Описание проекта", validators=[DataRequired()])
     submit = SubmitField("Подтвердить")
 
 #Main page that logs you into system
@@ -62,9 +68,26 @@ def newworker():
         form = form)
 
 #Create a new project
-@app.route('/newproject')
+@app.route('/newproject', methods=['GET', 'POST'])
 def newproject():
-    return render_template('newproject.html')
+    project_name = None
+    project_manager = None
+    project_description = None
+    form = ProjectForm()
+    #Validate Form
+    if form.validate_on_submit():
+        project_name = form.project_name.data
+        form.project_name.data = ''
+        project_manager = form.project_manager.data
+        form.project_manager.data = ''
+        project_description = form.project_description.data
+        form.project_description.data = ''
+
+    return render_template('newproject.html',
+        project_name = project_name,
+        project_manager = project_manager,
+        project_description = project_description,
+        form = form)
 
 if __name__ == "__main__":
     app.run(debug=True)
