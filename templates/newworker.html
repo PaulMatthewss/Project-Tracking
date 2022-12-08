@@ -5,10 +5,18 @@
 {% endblock %}
 
 {% block body %}
+
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor%}
+
 <h1>Создание сотрудника</h1>
 <hr color="black">
 {% if fio %}
-    <h1>You are a {{ fio }}, {{ edu }}</h1>
+    <h1>Вы {{ fio }}, {{ edu }}</h1>
 {% else %}
     <form method="POST">
         {{ form.hidden_tag() }}

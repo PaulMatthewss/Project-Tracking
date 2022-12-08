@@ -1,10 +1,17 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, TextAreaField
 from wtforms.validators import DataRequired
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 #Flask instance
 app = Flask(__name__)
+
+#Add Database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///appdata.db'
+
+
 app.config['SECRET_KEY'] = "my super secret key that no one is supposed to see"
 #Create a Form Class
 class WorkerForm(FlaskForm):
@@ -58,6 +65,7 @@ def newworker():
         form.email.data = ''
         socmid = form.socmid.data
         form.socmid.data = ''
+        flash("Новый сотрудник был успешно добавлен")
 
     return render_template('newworker.html',
         fio = fio,
@@ -82,12 +90,22 @@ def newproject():
         form.project_manager.data = ''
         project_description = form.project_description.data
         form.project_description.data = ''
+        flash("Новый проект был успешно добавлен")
 
     return render_template('newproject.html',
         project_name = project_name,
         project_manager = project_manager,
         project_description = project_description,
         form = form)
+
+#Invalid pages
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template(500), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
