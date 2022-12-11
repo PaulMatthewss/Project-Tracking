@@ -8,11 +8,60 @@ from datetime import datetime
 #Flask instance
 app = Flask(__name__)
 
-#Add Database
+# Add Database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///appdata.db'
-
-
+# Secret Key
 app.config['SECRET_KEY'] = "my super secret key that no one is supposed to see"
+
+# Initialize the database
+db = SQLAlchemy(app)
+db.init_app(app)
+
+# Database model
+class Person(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fio = db.Column(db.String(100), nullable=False)
+    education = db.Column(db.String(100), nullable=False)
+    phone = db.Column(db.String(12), nullable=False, unique=True)
+    email = db.Column(db.String(150), nullable=False, unique=True)
+    s_media = db.Column(db.String(100))
+    managers = db.relationship('Manager', backref='person')
+    stats = db.relationship('Stat', backref='person')
+
+class Project(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    p_name = db.Column(db.String(100), nullable=False, unique=True)
+    description = db.Column(db.Text, nullable=False)
+    manager_id = db.Column(db.Integer, db.ForeignKey('manager.id'))
+    stats = db.relationship('Stat', backref='project')
+
+class Manager(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    person_id = db.Column(db.Integer, db.ForeignKey('person.id'))
+    projects = db.relationship('Project', backref='manager')
+
+class Mark(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    m_name  = db.Column(db.String(25), nullable=False, unique=True)
+    picture = db.Column(db.BLOB)
+    stats = db.relationship('Stat', backref='mark')
+
+class Stage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    s_number = db.Column(db.Integer, nullable=False, unique=True)
+    s_name = db.Column(db.String(100), nullable=False, unique=True)
+    stats = db.relationship('Stat', backref='stage')
+
+class Stat(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
+    person_id = db.Column(db.Integer, db.ForeignKey('person.id'))
+    stage_id = db.Column(db.Integer, db.ForeignKey('stage.id'))
+    mark_id = db.Column(db.Integer, db.ForeignKey('mark.id'))
+
+with app.app_context():
+    db.create_all()
+
 #Create a Form Class
 class WorkerForm(FlaskForm):
     fio = StringField("ФИО", validators=[DataRequired()])
