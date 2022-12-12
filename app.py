@@ -3,7 +3,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, TextAreaField
 from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 
 #Flask instance
 app = Flask(__name__)
@@ -11,7 +10,7 @@ app = Flask(__name__)
 # Add Database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///appdata.db'
 # Secret Key
-app.config['SECRET_KEY'] = "my super secret key that no one is supposed to see"
+
 
 # Initialize the database
 db = SQLAlchemy(app)
