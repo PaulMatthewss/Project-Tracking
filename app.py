@@ -148,11 +148,11 @@ def newproject():
 
 #Invalid pages
 @app.errorhandler(404)
-def page_not_found(e):
+def error404(e):
     return render_template("404.html"), 404
 
 @app.errorhandler(500)
-def page_not_found(e):
+def error500(e):
     return render_template(500), 500
 
 if __name__ == "__main__":
