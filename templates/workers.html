@@ -8,4 +8,7 @@
 <a href="newworker"><button class="btn btn-info">Новый сотрудник</button></a>
 <h1>Сотрудники</h1>
 <hr color="black">
+{% for our_worker in our_workers %}
+    {{ our_worker.fio }} {{ our_worker.education }}, {{ our_worker.phone }}<br/>
+{% endfor %}
 {% endblock %}

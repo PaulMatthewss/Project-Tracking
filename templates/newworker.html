@@ -15,9 +15,6 @@
 
 <h1>Создание сотрудника</h1>
 <hr color="black">
-{% if fio %}
-    <h1>Вы {{ fio }}, {{ edu }}</h1>
-{% else %}
     <form method="POST">
         {{ form.hidden_tag() }}
 
@@ -36,7 +33,5 @@
         {{ form.submit(class="btn btn-info") }}
     </form>
     <a href="workers"><button class="btn btn-info">Отмена</button></a>
-
-{% endif %}
 
 {% endblock %}

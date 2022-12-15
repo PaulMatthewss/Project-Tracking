@@ -85,12 +85,14 @@ def index():
 #Page with all workers
 @app.route('/workers')
 def workers():
-    return render_template('workers.html')
+    our_workers = Person.query.order_by(Person.fio)
+    return render_template('workers.html', our_workers = our_workers)
 
 #Page with all projects
 @app.route('/projects')
 def projects():
-    return render_template('projects.html')
+    our_projects = Project.query.order_by(Project.p_name)
+    return render_template('projects.html', our_projects = our_projects)
 
 #Create a new worker
 @app.route('/newworker', methods=['GET', 'POST'])
@@ -103,15 +105,16 @@ def newworker():
     form = WorkerForm()
     #Validate Form
     if form.validate_on_submit():
-        fio = form.fio.data
+        worker = Person.query.filter_by(email=form.email.data).first()
+        if worker is None:
+            worker = Person(fio=form.fio.data, education=form.edu.data, phone=form.phone.data, email=form.email.data, s_media=form.socmid.data)
+            db.session.add(worker)
+            db.session.commit()
+
         form.fio.data = ''
-        edu = form.edu.data
         form.edu.data = ''
-        phone = form.phone.data
         form.phone.data = ''
-        email = form.email.data
         form.email.data = ''
-        socmid = form.socmid.data
         form.socmid.data = ''
         flash("Новый сотрудник был успешно добавлен")
 
@@ -132,11 +135,13 @@ def newproject():
     form = ProjectForm()
     #Validate Form
     if form.validate_on_submit():
-        project_name = form.project_name.data
+        proj = Project.query.filter_by(p_name=form.project_name.data).first()
+        if proj is None:
+            proj = Project(p_name=form.project_name.data, manager_id=form.project_manager.data, description=form.project_description.data)
+            db.session.add(proj)
+            db.session.commit()
         form.project_name.data = ''
-        project_manager = form.project_manager.data
         form.project_manager.data = ''
-        project_description = form.project_description.data
         form.project_description.data = ''
         flash("Новый проект был успешно добавлен")
 

@@ -15,10 +15,6 @@
 
 <h1>Создание проекта</h1>
 <hr color="black">
-
-{% if project_name %}
-    <h1>Проект: {{ project_name }}, руководитель: {{ project_manager }}</h1>
-{% else %}
     <form method="POST">
         {{ form.hidden_tag() }}
 
@@ -34,6 +30,5 @@
     </form>
     <a href="projects"><button class="btn btn-info">Отмена</button></a>
 
-{% endif %}
     
 {% endblock %}

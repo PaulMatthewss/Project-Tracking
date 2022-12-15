@@ -8,4 +8,7 @@
 <a href="newproject"><button class="btn btn-info">Новый проект</button></a>
 <h1>Проекты</h1>
 <hr color="black">
+{% for our_project in our_projects %}
+    {{ our_project.p_name }}, {{ our_project.manager_id }}<br/>
+{% endfor %}
 {% endblock %}
