@@ -72,7 +72,7 @@ class WorkerForm(FlaskForm):
 
 class ProjectForm(FlaskForm):
     project_name = StringField("Название проекта", validators=[DataRequired()])
-    project_manager = SelectField("Руководитель проекта", choices=[('Анна'), ('Павел'), ('Пётр')], validate_choice=False)
+    project_manager = SelectField("Руководитель проекта", choices=[], validate_choice=False)
     project_description = TextAreaField("Описание проекта", validators=[DataRequired()])
     submit = SubmitField("Подтвердить")
 
@@ -133,6 +133,7 @@ def newproject():
     project_manager = None
     project_description = None
     form = ProjectForm()
+    form.project_manager.choices = [(project_manager.id, project_manager.person_id) for project_manager in Manager.query.all()]
     #Validate Form
     if form.validate_on_submit():
         proj = Project.query.filter_by(p_name=form.project_name.data).first()
